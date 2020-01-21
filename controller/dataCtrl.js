@@ -5,7 +5,6 @@ const helper = require('../helper');
 exports.reportsData = async (req, res) => {
     try {
         const data = await db.rawget('heads', {});
-        console.log(data);
         res.status(200).json(helper.success_message(data));
     } catch (e) {
         res.status(200).json(helper.error_message(e));
