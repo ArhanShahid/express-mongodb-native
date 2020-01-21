@@ -5,17 +5,22 @@ const config = require('../config/config');
 
 exports.rawget = (name, query) => {
     return new Promise((resolve, reject) => {
-        MongoClient.connect(config.DB_URI, function (error, db) {
+        const client = new MongoClient(config.DB_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+        client.connect(error => {
             if (error) { return console.log(error); }
-            db.db(config.DB_NAME).collection("heads").find(query).toArray((error, data) => {
+            client.db(config.DB_NAME).collection(name).find(query).toArray((error, data) => {
                 if (error) {
                     console.log("Error", error);
                     reject(error);
                 } else {
                     resolve(data);
                 }
-                db.close();
+                client.close();
             });
+
         });
     });
 }
