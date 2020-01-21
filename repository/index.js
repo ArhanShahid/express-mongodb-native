@@ -16,6 +16,8 @@ exports.rawget = (name, query) => {
                     console.log("Error", error);
                     reject(error);
                 } else {
+                    console.log('-----------------------------');
+                    console.log(data);
                     resolve(data);
                 }
                 client.close();
