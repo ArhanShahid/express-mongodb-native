@@ -3,6 +3,5 @@
 const controller = require("../controller/dataCtrl");
 
 exports.data = (app) => {
-
-    app.get('/data', controller.reportsData);
+    app.post('/data', controller.reportsData);
 };
