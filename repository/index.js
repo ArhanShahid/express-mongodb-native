@@ -11,13 +11,12 @@ exports.rawget = (name, query) => {
         });
         client.connect(error => {
             if (error) { return console.log(error); }
-            client.db(config.DB_NAME).collection(name).find(query).toArray((error, data) => {
+            console.log('Is Connected', client.topology.isConnected());
+            client.db(config.DB_NAME).collection('posts').find({}).toArray((error, data) => {
                 if (error) {
                     console.log("Error", error);
                     reject(error);
                 } else {
-                    console.log('-----------------------------');
-                    console.log(data);
                     resolve(data);
                 }
                 client.close();
