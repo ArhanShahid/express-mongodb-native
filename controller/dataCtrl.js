@@ -7,7 +7,10 @@ exports.reportsData = async (req, res) => {
         if (!req.body.collection) {
             res.status(200).json(helper.error_message('Required Data Missing.'));
         } else {
-            const data = await db.rawget('companies', {}, Number(req.body.limit));
+            if (req.body.limit !== null) {
+                req.body.limit =  Number(req.body.limit);
+            }
+            const data = await db.rawget('companies', {}, req.body.limit);
             res.status(200).json(helper.success_message(data));
         }
     } catch (e) {
