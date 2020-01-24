@@ -3,7 +3,7 @@
 const MongoClient = require('mongodb').MongoClient;
 const config = require('../config/config');
 
-exports.rawget = (name, query) => {
+exports.rawget = (name, query, limit) => {
     return new Promise((resolve, reject) => {
         const client = new MongoClient(config.DB_URI, {
             useNewUrlParser: true,
@@ -12,7 +12,7 @@ exports.rawget = (name, query) => {
         client.connect(error => {
             if (error) { return console.log(error); }
             console.log('Is Connected', client.topology.isConnected());
-            client.db(config.DB_NAME).collection(name).find(query).toArray((error, data) => {
+            client.db(config.DB_NAME).collection(name).find(query).limit(limit).toArray((error, data) => {
                 if (error) {
                     console.log("Error", error);
                     reject(error);
