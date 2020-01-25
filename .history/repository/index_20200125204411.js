@@ -1,10 +1,26 @@
 "use strict";
 
-// const MongoClient = require('mongodb').MongoClient;
+const MongoClient = require('mongodb').MongoClient;
+const mongoose = require('mongoose');
+const config = require('../config/config');
 // const client = new MongoClient(config.DB_URI, {
 //   useNewUrlParser: true,
 //   useUnifiedTopology: true
 // });
+
+mongoose.connect(
+    config.DB_URI, {
+        useNewUrlParser: true,
+        useFindAndModify: false,
+        useCreateIndex: true,
+        useUnifiedTopology: true,
+        poolSize: 10,
+        bufferMaxEntries: 0
+    }
+);
+
+
+const Schema = mongoose.Schema;
 
 // exports.rawget = (name, query, limit) => {
 //     return new Promise((resolve, reject) => {
@@ -25,32 +41,18 @@
 //     });
 // }
 
-const mongoose = require('mongoose');
-const config = require('../config/config');
-mongoose.connect(
-    config.DB_URI, {
-      useNewUrlParser: true,
-      useFindAndModify: false,
-      useCreateIndex: true,
-      useUnifiedTopology: true,
-      poolSize: 10,
-      bufferMaxEntries: 0
-    }
-  );
-  mongoose.connection.once('open', function () {
-    console.info('Mongoose connection opened ');
-  });
-  
-const Schema = new mongoose.Schema({}, {
-  strict: false
-});
-const Grades = mongoose.model('grades', Schema, 'grades');
 
 exports.rawget = (name, query, limit) => {
   return new Promise((resolve, reject) => {
+
+
+    const ProductSchema = new Schema({}, {
+      strict: false
+    });
+    const Grades = mongoose.model('Grades', ProductSchema, 'grades');
+
     Grades.find(query)
       .limit(limit)
-      .lean(true)
       .exec((error, data) => {
         if (error) {
           console.log("Error", error);

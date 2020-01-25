@@ -1,7 +1,6 @@
 "use strict";
 const db = require('../repository');
 const helper = require('../helper');
-const moment = require('moment');
 
 exports.reportsData = async (req, res) => {
     try {

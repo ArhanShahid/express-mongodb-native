@@ -41,14 +41,14 @@ mongoose.connect(
     console.info('Mongoose connection opened ');
   });
   
-const Schema = new mongoose.Schema({}, {
+const ProductSchema = new mongoose.Schema({}, {
   strict: false
 });
-const Grades = mongoose.model('grades', Schema, 'grades');
+const Grades = mongoose.model('grades', ProductSchema, 'grades');
 
 exports.rawget = (name, query, limit) => {
   return new Promise((resolve, reject) => {
-    Grades.find(query)
+    name.find(query)
       .limit(limit)
       .lean(true)
       .exec((error, data) => {

@@ -1,7 +1,6 @@
 "use strict";
 const db = require('../repository');
 const helper = require('../helper');
-const moment = require('moment');
 
 exports.reportsData = async (req, res) => {
     try {
@@ -13,9 +12,6 @@ exports.reportsData = async (req, res) => {
             }
             const timeStart = new Date();
             const data = await db.rawget(req.body.collection, {}, req.body.limit);
-            const timeEnd = new Date();
-            const sec = moment.utc(moment(timeEnd, 'HH:mm:ss').diff(moment(timeStart, 'HH:mm:ss'))).format('ss')
-            console.log(`Start: ${timeStart}, End: ${timeEnd}, Sec: ${sec}`);
             res.status(200).json(helper.success_message(data));
         }
     } catch (e) {
