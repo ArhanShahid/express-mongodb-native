@@ -2,14 +2,13 @@
 
 const MongoClient = require('mongodb').MongoClient;
 const config = require('../config/config');
-const client = new MongoClient(config.DB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
 
 exports.rawget = (name, query, limit) => {
     return new Promise((resolve, reject) => {
-       
+        const client = new MongoClient(config.DB_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
         client.connect(error => {
             if (error) { return console.log(error); }
             console.log('Is Connected', client.topology.isConnected());
@@ -20,7 +19,7 @@ exports.rawget = (name, query, limit) => {
                 } else {
                     resolve(data);
                 }
-                // client.close();
+                client.close();
             });
 
         });

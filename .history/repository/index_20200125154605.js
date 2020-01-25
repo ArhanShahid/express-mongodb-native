@@ -4,7 +4,7 @@ const MongoClient = require('mongodb').MongoClient;
 const config = require('../config/config');
 const client = new MongoClient(config.DB_URI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: false
 });
 
 exports.rawget = (name, query, limit) => {
