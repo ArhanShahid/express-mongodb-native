@@ -235,7 +235,7 @@ exports.eventData = async (req, res) => {
             ];
 
             res.status(200).json(helper
-                .success_message(events));
+                .success_message(events);
         }
     } catch (e) {
         console.log(e);

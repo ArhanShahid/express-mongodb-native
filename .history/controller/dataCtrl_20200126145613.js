@@ -235,7 +235,8 @@ exports.eventData = async (req, res) => {
             ];
 
             res.status(200).json(helper
-                .success_message(events));
+                .success_message(eventGenerator(Number(req.body.month),
+                Number(req.body.num))));
         }
     } catch (e) {
         console.log(e);
