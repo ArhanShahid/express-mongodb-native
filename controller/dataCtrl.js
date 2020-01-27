@@ -9,11 +9,12 @@ exports.reportsData = async (req, res) => {
             res.status(200).json(helper.error_message('Required Data Missing.'));
         } else {
             if (req.body.limit !== null) {
-                req.body.limit =  Number(req.body.limit);
+                req.body.limit = Number(req.body.limit);
             }
 
             const timeStart = new Date();
             const data = await db.rawget(req.body.collection, {
+                location: 'US-VA'
             }, req.body.limit);
             const timeEnd = new Date();
             const sec = moment.utc(moment(timeEnd, 'HH:mm:ss').diff(moment(timeStart, 'HH:mm:ss'))).format('ss')
@@ -25,6 +26,7 @@ exports.reportsData = async (req, res) => {
         res.status(200).json(helper.error_message(e));
     }
 }
+
 
 exports.eventData = async (req, res) => {
     try {
@@ -236,7 +238,7 @@ exports.eventData = async (req, res) => {
                 },
             ];
 
-           const n = events.concat(eventGenerator(Number(req.body.month), Number(req.body.num)));
+            const n = events.concat(eventGenerator(Number(req.body.month), Number(req.body.num)));
             res.status(200).json(helper
                 .success_message(n));
         }
@@ -246,7 +248,60 @@ exports.eventData = async (req, res) => {
     }
 }
 
-function eventGenerator (month, num) {
+exports.createData = async (req, res) => {
+    try {
+        var a = 0;
+        for (var i = 0; i < 10000; i++) {
+            var obj = {
+                name: `abc-${i}`,
+                company: `abc limited -${i}`,
+                address: `building 123 street 11 flat-${i}`,
+                location: `sdgfhsdghfgdshf-${i}`,
+                lat: `1231.123.12-${i}`,
+                long: `123123.123.1-${i}`,
+                email: `asdf@sadf.com-${i}`,
+                email2: `asdf@sadf.com-${i}`,
+                phone: `23423432432-${i}`,
+                contact: `23423423423-${i}`,
+                createdDate: `123213123-${i}`,
+                vision: `saf sad asdf asdf asdfa fds asdf adsf adsf wersvbxc xc zxc-${i}`,
+                manager: `John Def-${i}`,
+                NTN: `234 324324 234234 -${i}`,
+                employees: `Devid -${i}`,
+                country: `united States of peoples-${i}`,
+                products: `testing -${i}`,
+                items: `ecomerce items -${i}`,
+                documents: `testing doc -${i}`,
+                owners: `farhan -${i}`,
+                records: `comapany -${i}`,
+                details: {
+                    documents: `tax doc-${i}`,
+                    owners: `Usman -${i}`,
+                    createdDate: `324234 3243242-${i}`,
+                    vision: `alpha bravo charlie docker abc -${i}`
+                }
+            }
+            if (i < 3000) {
+                obj.location = 'US-VA';
+            } else {
+                obj.location = 'US-OR';
+
+            }
+            db.createData(obj);
+            console.log(a++);
+        }
+
+
+        res.status(200).json(helper.success_message('Done'));
+
+    } catch (e) {
+        console.log(e);
+        res.status(200).json(helper.error_message(e));
+    }
+}
+
+
+function eventGenerator(month, num) {
     const arr = [];
     for (let i = 1; i <= num; i++) {
         const id = i;

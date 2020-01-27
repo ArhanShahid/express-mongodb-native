@@ -71,3 +71,17 @@ exports.rawget = (model, query, limit) => {
       });
   });
 }
+
+exports.createData = (obj) => {
+  return new Promise((resolve, reject) => {
+    let m = new Companies(obj);
+    m.save((error, data) => {
+        if (error) {
+          console.log("Error", error);
+          reject(error);
+        } else {
+          resolve(data);
+        }
+      });
+  });
+}
