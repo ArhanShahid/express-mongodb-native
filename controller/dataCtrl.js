@@ -13,7 +13,8 @@ exports.reportsData = async (req, res) => {
             }
 
             const timeStart = new Date();
-            const data = await db.rawget(req.body.collection, { location: 'US-VA'}, req.body.limit);
+            const data = await db.rawget(req.body.collection, {
+            }, req.body.limit);
             const timeEnd = new Date();
             const sec = moment.utc(moment(timeEnd, 'HH:mm:ss').diff(moment(timeStart, 'HH:mm:ss'))).format('ss')
             console.log(`Start: ${timeStart}, End: ${timeEnd}, Sec: ${sec}`);
