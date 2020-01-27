@@ -48,7 +48,7 @@ const Grades = mongoose.model('grades', Schema, 'grades');
 const Companies = mongoose.model('companies', Schema, 'companies');
 const Trips = mongoose.model('trips', Schema, 'trips');
 
-exports.rawget = (model, query, limit) => {
+exports.rawget = (model, query, limit, selectParams) => {
   return new Promise((resolve, reject) => {
     let m = null;
     if (model == 'grades') {
@@ -59,6 +59,7 @@ exports.rawget = (model, query, limit) => {
       m = Companies
     }
     m.find(query)
+      .select(selectParams || "")
       .limit(limit)
       .lean(true)
       .exec((error, data) => {
