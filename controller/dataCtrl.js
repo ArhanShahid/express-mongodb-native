@@ -1,6 +1,7 @@
 "use strict";
 const db = require('../repository');
 const helper = require('../helper');
+const mongoose = require('mongoose');
 const moment = require('moment');
 
 exports.reportsData = async (req, res) => {
@@ -11,8 +12,13 @@ exports.reportsData = async (req, res) => {
             if (req.body.limit !== null) {
                 req.body.limit =  Number(req.body.limit);
             }
+            const Schema = new mongoose.Schema({}, {
+                strict: false
+              });
+            const model = mongoose.model(req.body.collection, Schema, req.body.collection);
+
             const timeStart = new Date();
-            const data = await db.rawget(req.body.collection, {}, req.body.limit);
+            const data = await db.rawget(model, {}, req.body.limit);
             const timeEnd = new Date();
             const sec = moment.utc(moment(timeEnd, 'HH:mm:ss').diff(moment(timeStart, 'HH:mm:ss'))).format('ss')
             console.log(`Start: ${timeStart}, End: ${timeEnd}, Sec: ${sec}`);
@@ -234,8 +240,9 @@ exports.eventData = async (req, res) => {
                 },
             ];
 
+           const n = events.concat(eventGenerator(Number(req.body.month), Number(req.body.num)));
             res.status(200).json(helper
-                .success_message(events));
+                .success_message(n));
         }
     } catch (e) {
         console.log(e);
@@ -252,13 +259,13 @@ function eventGenerator (month, num) {
         const nextHour = hour + 1;
         arr.push({
             'id': id,
-            'title': `Appointment ${id}`,
+            'title': `App ${id}`,
             'start': `2020-0${month}-${date}T${hour}:00:00`,
             'end': `2020-0${month}-${date}T${nextHour}:00:00`,
-            'color': '#bad066',
-            'backgroundColor': '#f3f0f0',
+            'color': '#00D6D6',
+            'backgroundColor': '#00D6D6',
             'allDay': false,
-            'textColor': '#000000',
+            'textColor': '#FFFFFF',
             'extendedProps': {
                 data: 'Data'
             }
