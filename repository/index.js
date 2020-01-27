@@ -41,15 +41,24 @@ mongoose.connect(
     console.info('Mongoose connection opened ');
   });
   
-// const Schema = new mongoose.Schema({}, {
-//   strict: false
-// });
-// const Grades = mongoose.model('grades', Schema, 'grades');
-// const Companies = mongoose.model('companies', Schema, 'companies');
+const Schema = new mongoose.Schema({}, {
+  strict: false
+});
+const Grades = mongoose.model('grades', Schema, 'grades');
+const Companies = mongoose.model('companies', Schema, 'companies');
+const Trips = mongoose.model('trips', Schema, 'trips');
 
 exports.rawget = (model, query, limit) => {
   return new Promise((resolve, reject) => {
-    model.find(query)
+    let m = null;
+    if (model == 'grades') {
+      m = Grades;
+    } else if(model == 'trips') {
+      m = Trips
+    } else {
+      m = Companies
+    }
+    m.find(query)
       .limit(limit)
       .lean(true)
       .exec((error, data) => {

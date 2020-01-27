@@ -1,7 +1,6 @@
 "use strict";
 const db = require('../repository');
 const helper = require('../helper');
-const mongoose = require('mongoose');
 const moment = require('moment');
 
 exports.reportsData = async (req, res) => {
@@ -12,13 +11,9 @@ exports.reportsData = async (req, res) => {
             if (req.body.limit !== null) {
                 req.body.limit =  Number(req.body.limit);
             }
-            const Schema = new mongoose.Schema({}, {
-                strict: false
-              });
-            const model = mongoose.model(req.body.collection, Schema, req.body.collection);
 
             const timeStart = new Date();
-            const data = await db.rawget(model, {}, req.body.limit);
+            const data = await db.rawget(req.body.collection, { location: 'US-VA'}, req.body.limit);
             const timeEnd = new Date();
             const sec = moment.utc(moment(timeEnd, 'HH:mm:ss').diff(moment(timeStart, 'HH:mm:ss'))).format('ss')
             console.log(`Start: ${timeStart}, End: ${timeEnd}, Sec: ${sec}`);
