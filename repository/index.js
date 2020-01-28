@@ -46,6 +46,7 @@ const Schema = new mongoose.Schema({}, {
 });
 const Grades = mongoose.model('grades', Schema, 'grades');
 const Companies = mongoose.model('companies', Schema, 'companies');
+const DemoData = mongoose.model('demodata', Schema, 'demodata');
 const Trips = mongoose.model('trips', Schema, 'trips');
 
 exports.rawget = (model, query, limit, selectParams) => {
@@ -53,6 +54,8 @@ exports.rawget = (model, query, limit, selectParams) => {
     let m = null;
     if (model == 'grades') {
       m = Grades;
+    } else if (model == 'demodata') {
+      m = DemoData;
     } else if(model == 'trips') {
       m = Trips
     } else {
@@ -75,7 +78,7 @@ exports.rawget = (model, query, limit, selectParams) => {
 
 exports.createData = (obj) => {
   return new Promise((resolve, reject) => {
-    let m = new Companies(obj);
+    let m = new DemoData(obj);
     m.save((error, data) => {
         if (error) {
           console.log("Error", error);

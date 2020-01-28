@@ -253,9 +253,9 @@ exports.createData = async (req, res) => {
         var a = 0;
         for (var i = 0; i < 10000; i++) {
             var obj = {
-                name: `abc-${i}`,
-                company: `abc limited -${i}`,
-                address: `building 123 street 11 flat-${i}`,
+                name: `User ${i}`,
+                company: `Company ${i} limited.`,
+                address: `Building 123 street 11, Flat-${i}`,
                 location: `sdgfhsdghfgdshf-${i}`,
                 lat: `1231.123.12-${i}`,
                 long: `123123.123.1-${i}`,
