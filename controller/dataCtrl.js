@@ -248,6 +248,17 @@ exports.eventData = async (req, res) => {
     }
 }
 
+exports.eventData2 = async (req, res) => {
+    try {
+        res.status(200).json(helper
+            .success_message(generateEvents()));
+        
+    } catch (e) {
+        console.log(e);
+        res.status(200).json(helper.error_message(e));
+    }
+}
+
 exports.createData = async (req, res) => {
     try {
         var a = 0;
@@ -323,4 +334,30 @@ function eventGenerator(month, num) {
         });
     }
     return arr;
+}
+
+
+function generateEvents() {
+    const subjectCollection = ['Oil Change', 'Brake Shoe Change', 'Engine Repair'];
+    const collections = [];
+    const dataCollections = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    let id = 1;
+    for (const data of dataCollections) {
+        const startDate = new Date(2020, 0, 1);
+        startDate.setMilliseconds(1000 * 60 * 60 * .5 * (data - 1));
+        const lastDate = new Date((+startDate) + (1000 * 60 * 60 * 24 * 30));
+        for (let date = startDate; date.getTime() < lastDate.getTime(); date = new Date(date.getTime() + (1000 * 60 * 60 * 5))) {
+            const strDate = new Date(+date);
+            const endDate = new Date((+strDate) + (1000 * 60 * 60 * (2.5 + (0.5 * data))));
+            collections.push({
+                Id: id,
+                Subject: subjectCollection[id % 2],
+                StartTime: new Date(+strDate),
+                EndTime: new Date(+endDate),
+                TechnicianId: data
+            });
+            id += 1;
+        }
+    }
+    return collections;
 }
